@@ -83,6 +83,7 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
 
         mConnection = new XMPPTCPConnection(builder.build());
         mConnection.addConnectionListener(this);
+        mConnection.setPacketReplyTimeout(60000);
         mConnection.connect();
         mConnection.login();
 
@@ -124,7 +125,7 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
             chat.sendMessage(body);
         }catch (SmackException.NotConnectedException | XMPPException e)
         {
-            e.printStackTrace();sss
+            e.printStackTrace();
         }
 
 
