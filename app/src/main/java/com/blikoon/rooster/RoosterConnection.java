@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 
 import com.blikoon.rooster.constant.SharedPreferenceConstant;
+import com.blikoon.rooster.db.MessageDao;
 import com.blikoon.rooster.util.AppPreferences;
 
 import org.jivesoftware.smack.Chat;
@@ -37,6 +38,8 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
     private XMPPTCPConnection mConnection;
     private BroadcastReceiver uiThreadMessageReceiver;//Receives messages from the ui thread.
 
+    private MessageDao messageDao;
+
 
     public static enum ConnectionState
     {
@@ -65,6 +68,9 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
             mUsername ="";
             mServiceName="";
         }
+
+        messageDao = new MessageDao(context);
+        messageDao.open();
     }
 
 
@@ -158,6 +164,8 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
         intent.putExtra(RoosterConnectionService.BUNDLE_MESSAGE_BODY,message.getBody());
         mApplicationContext.sendBroadcast(intent);
         Log.d(TAG,"Received message from :"+contactJid+" broadcast sent.");
+
+        messageDao.createMessage(message.getBody());
 
     }
 
