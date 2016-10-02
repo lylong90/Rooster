@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blikoon.rooster.db.Message;
+import com.blikoon.rooster.db.MessageDao;
+
+import java.util.List;
+
 import co.devcenter.androiduilibrary.ChatView;
 import co.devcenter.androiduilibrary.ChatViewEventListener;
 import co.devcenter.androiduilibrary.SendButton;
@@ -22,6 +27,8 @@ public class ChatActivity extends AppCompatActivity {
     private ChatView mChatView;
     private SendButton mSendButton;
     private BroadcastReceiver mBroadcastReceiver;
+
+    private MessageDao messageDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +79,21 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         contactJid = intent.getStringExtra("EXTRA_CONTACT_JID");
         setTitle(contactJid);
+
+        messageDao = new MessageDao(this);
+        messageDao.open();
     }
 
     @Override
     protected void onPause() {
+        messageDao.close();
         super.onPause();
         unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
     protected void onResume() {
+        messageDao.open();
         super.onResume();
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -111,6 +123,7 @@ public class ChatActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(RoosterConnectionService.NEW_MESSAGE);
         registerReceiver(mBroadcastReceiver,filter);
 
-
+        List<Message> values = messageDao.getAllMessages();
+        Toast.makeText(this, "messages: " + values.toString(), Toast.LENGTH_LONG).show();
     }
 }
