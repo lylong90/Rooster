@@ -39,6 +39,7 @@ public class MessageReceiver extends BroadcastReceiver
                 Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                         .setContentTitle("New message from " + from)
+                        .setSmallIcon(R.drawable.fab_bg_mini)   // if smallIcon not set, push notification won't appear
                         .setContentText(body)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
