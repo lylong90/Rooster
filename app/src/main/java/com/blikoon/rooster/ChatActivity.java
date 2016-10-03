@@ -30,6 +30,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private MessageDao messageDao;
 
+    public static boolean isActivityRunning = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,8 @@ public class ChatActivity extends AppCompatActivity {
         messageDao.close();
         super.onPause();
         unregisterReceiver(mBroadcastReceiver);
+
+        isActivityRunning = false;
     }
 
     @Override
@@ -125,5 +129,7 @@ public class ChatActivity extends AppCompatActivity {
 
         List<Message> values = messageDao.getAllMessages();
         Toast.makeText(this, "messages: " + values.toString(), Toast.LENGTH_LONG).show();
+
+        isActivityRunning = true;
     }
 }
