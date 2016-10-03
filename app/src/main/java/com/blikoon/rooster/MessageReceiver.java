@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.blikoon.rooster.constant.IntentExtraConstant;
+
 import org.jivesoftware.smack.Chat;
 
 /**
@@ -33,12 +35,12 @@ public class MessageReceiver extends BroadcastReceiver
                 Intent myIntent = new Intent(context, ChatActivity.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 myIntent.putExtras(intent.getExtras());
-                myIntent.putExtra("EXTRA_CONTACT_JID", from);
+                myIntent.putExtra(IntentExtraConstant.EXTRA_CONTACT_JID, from);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, myIntent, PendingIntent.FLAG_ONE_SHOT);
 
                 Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                        .setContentTitle("New message from " + from)
+                        .setContentTitle(from)
                         .setSmallIcon(R.drawable.fab_bg_mini)   // if smallIcon not set, push notification won't appear
                         .setContentText(body)
                         .setAutoCancel(true)
