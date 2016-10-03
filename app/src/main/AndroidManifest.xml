@@ -28,8 +28,16 @@
         <activity android:name=".ChatActivity">
         </activity>
         <service android:name=".RoosterConnectionService">
-
         </service>
+
+        <receiver
+            android:name="com.blikoon.rooster.MessageReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.blikoon.rooster.newmessage" />
+                <category android:name="com.blikoon.rooster" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

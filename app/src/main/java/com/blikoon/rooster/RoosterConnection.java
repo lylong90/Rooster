@@ -97,6 +97,8 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
         reconnectionManager.setEnabledPerDefault(true);
         reconnectionManager.enableAutomaticReconnection();
 
+        ChatManager.getInstanceFor(mConnection).createChat("lylong1@xmpp.jp",this); // IMPORTANT! used to receive message
+
     }
 
     private void setupUiThreadBroadCastMessageReceiver()
@@ -202,7 +204,7 @@ public class RoosterConnection implements ConnectionListener,ChatMessageListener
     public void connected(XMPPConnection connection) {
         RoosterConnectionService.sConnectionState=ConnectionState.CONNECTED;
         Log.d(TAG,"Connected Successfully");
-        ChatManager.getInstanceFor(mConnection).createChat("lylong1@xmpp.jp", this);    // fixme: put this in ChatActivity
+//        ChatManager.getInstanceFor(mConnection).createChat("lylong1@xmpp.jp", this);    // fixme: put this in ChatActivity
     }
 
     @Override
